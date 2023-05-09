@@ -1,35 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import './UserForm.css';
 
 const UserForm = (props) => {
   const [firstname, setFirstName] = useState('');
   const [lastname, setLastName] = useState('');
   const [age, setAge] = useState('');
-  const [isValidForm, setIsValidForm] = useState(false);
+  const isValidForm = useMemo(
+    () => firstname !== '' && lastname !== '' && age !== '',
+    [firstname, lastname, age]);
 
-  const firstNameInputHandler = (event) => {
-    const enteredFirstName = event.target.value;
-    setFirstName(enteredFirstName);
-
-    // lastname and age STATE is not reliable
-    setIsValidForm(enteredFirstName !== '' && lastname !== '' && age !== '');
-  }
-
-  const lastNameInputHandler = (event) => {
-    const enteredLastName = event.target.value;
-    setLastName(enteredLastName);
-
-    // firstname and age STATE is not reliable
-    setIsValidForm(firstname !== '' && enteredLastName !== '' && age !== '');
-  }
-
-  const ageInputHandler = (event) => {
-    const enteredAge = event.target.value;
-    setAge(enteredAge);
-
-    // firstname and lastname STATE is not reliable
-    setIsValidForm(firstname !== '' && lastname !== '' && enteredAge !== '');
-  }
+  const firstNameInputHandler = (event) => setFirstName(event.target.value);
+  const lastNameInputHandler = (event) => setLastName(event.target.value);
+  const ageInputHandler = (event) => setAge(event.target.value);
 
   const submitHandler = (event) => {
     event.preventDefault();
